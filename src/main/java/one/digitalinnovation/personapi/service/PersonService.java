@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import one.digitalinnovation.personapi.dto.request.PersonDTO;
 import one.digitalinnovation.personapi.dto.response.MessageResponseDTO;
 import one.digitalinnovation.personapi.entity.Person;
+import one.digitalinnovation.personapi.exception.PersonNotFoundException;
 import one.digitalinnovation.personapi.mapper.PersonMapper;
 import one.digitalinnovation.personapi.repository.PersonRepository;
 
@@ -35,5 +36,13 @@ public class PersonService {
 	public List<PersonDTO> listAll() {
 		List<Person> list = repository.findAll();
 		return list.stream().map(personMapper::toDTO).collect(Collectors.toList());
+	}
+
+	public PersonDTO findById(Long id) throws PersonNotFoundException {
+		return personMapper.toDTO(verifyIfExistsOrThrowException(id));
+	}
+
+	private Person verifyIfExistsOrThrowException(Long id) throws PersonNotFoundException {
+		return repository.findById(id).orElseThrow(() -> new PersonNotFoundException("Person not found with ID " + id));
 	}
 }
