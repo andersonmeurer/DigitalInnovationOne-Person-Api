@@ -42,6 +42,11 @@ public class PersonService {
 		return personMapper.toDTO(verifyIfExistsOrThrowException(id));
 	}
 
+	public void delete(Long id) throws PersonNotFoundException {
+		verifyIfExistsOrThrowException(id);
+		repository.deleteById(id);
+	}
+
 	public MessageResponseDTO updateById(Long id, PersonDTO personDto) throws PersonNotFoundException {
 		verifyIfExistsOrThrowException(id);
 		Person person = personMapper.toModel(personDto);
