@@ -1,2 +1,2 @@
 # apersonapi
- API DigitalInovatioOne
+ API DigitalInovationOne
